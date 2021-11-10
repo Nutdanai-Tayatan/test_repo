@@ -1,0 +1,16 @@
+%br
+%br
+%div.container
+  - if(!@check_follow && session[:user_id].to_s != params[:name].to_s)
+    %a{href:"/updateprofile/#{params[:name]}/#{@check_follow}" ,class:"btn btn-primary",style:"color:white"}Follow
+  - elsif(session[:user_id].to_s != params[:name].to_s)
+    %a{href:"/updateprofile/#{params[:name]}/#{@check_follow}" ,class:"btn btn-primary",style:"color:white"}UnFollow
+  - else
+    %button.btn.btn-primary{:disabled => "disabled", :type => "button"} Disabled
+-@post.each do |p|
+  %div{class:"container border border-1 m-2"}
+    %p= link_to "name : #{@name}" ,"/profile/#{@otherUser.id}"
+    %p= "msg : #{p[1]}"
+    %p= "creat at : #{p[0]}"
+%div{class:"container"}
+  = link_to 'Back',"/feed/#{session[:user_id]}" ,class:"btn btn-secondary sm mt-2 ",style:"color:white"

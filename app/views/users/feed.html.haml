@@ -1,0 +1,9 @@
+%br
+%br
+%div{class:"container",href:""}
+  %a{href:new_post_path ,class:"btn btn-primary" ,style:"color:white"}Create post
+-@post.each do |p|
+  %div{class:"container border border-1 m-2"}
+    %p= link_to "name : #{p[1]}" ,"/profile/#{p[3]}"
+    %p= "msg : #{p[2]}"
+    %p= "creat at : #{p[0]}"
