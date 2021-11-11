@@ -1,0 +1,36 @@
+%br
+%br
+-c = 0
+%div.container
+  - if(!@check_follow)
+    = button_to "Follow", setFollow_url, method: :post, params: { name:params[:name] },class:"btn btn-primary"
+  - else
+    = button_to "UnFollow", setFollow_url, method: :post, params: { name:params[:name] },class:"btn btn-primary"
+
+-@post.each do |p|
+  %div{class:"container border border-1 m-2"}
+    %p= link_to "name : #{p[0]}" ,"/profile/#{p[0]}"
+    %p= "msg : #{p[1]}"
+    %p= "creat at : #{p[2]}"
+    %button.btn.btn-link{"data-bs-target" => "#showName#{c}", "data-bs-toggle" => "modal", class:"m-0 p-0 "} like : #{Post.find(p[3]).likes.count}
+    .modal.fade{id:"showName#{c}"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h5.modal-title list name
+            %button.btn-close{"data-bs-dismiss" => "modal"}
+          .modal-body
+            %ul.list-group.list-group-flush
+              -Post.find(p[3]).likes do |u|
+                %a{href:"/profile/#{u.name}" ,class:"list-group-item" ,color:"black"} #{u.name}
+
+    %hr{style:"margin:0.5rem 0;"}
+    %div{class:"container mb-1 "}
+      -if(Like.find_by(post_id:p[3],user_id:session[:user_id]))
+        = button_to "Unlike", setLike_url, method: :post, params: { postID:"#{p[3]}" },class:"btn btn-info btn-sm"
+
+      -else
+        = button_to "Like", setLike_url, method: :post, params: { postID:"#{p[3]}" },class:"btn btn-info btn-sm"
+    -c = c+1
+%div{class:"container"}
+  = link_to 'Back',"/feed/#{session[:user_id]}" ,class:"btn btn-secondary sm mt-2 ",style:"color:white"
